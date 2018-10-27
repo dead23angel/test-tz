@@ -11,6 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::pattern('{news}', '[0-9]+');
+Route::pattern('{category}', '[0-9]+');
+
+Route::get('/', 'NewsController@index');
+Route::get('news/{news}', 'NewsController@show');
+Route::get('category/{category}', 'NewsController@category');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('manager', 'ManagerController');
 });
